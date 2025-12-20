@@ -9,26 +9,55 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
+
+    <!-- Language Toggle -->
+    <div class="lang-switch-container">
+        <button class="lang-btn active" onclick="setLanguage('es')">ES</button>
+        <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+    </div>
+
     <nav class="navbar">
         <div class="logo">
-            <span class="logo-text">IGNITION</span>
-            <span class="logo-subtext">BREATHWORK</span>
+            <img src="graficas/Logo512v2.png" alt="Ignition Logo" class="logo-img">
+            <div class="logo-text-group">
+                <span class="logo-text">IGNITION</span>
+                <span class="logo-subtext">BREATHWORK</span>
+            </div>
         </div>
         <ul class="nav-links">
-            <li><a href="#features">Características</a></li>
-            <li><a href="#pro">Versión PRO</a></li>
-            <li><a href="#download" class="btn-primary">Descargar</a></li>
+            <li><a href="#features" data-lang="es">Características</a><a href="#features" data-lang="en"
+                    style="display:none">Features</a></li>
+            <li><a href="#pro" data-lang="es">Versión PRO</a><a href="#pro" data-lang="en" style="display:none">PRO
+                    Version</a></li>
+            <li><a href="#download" class="btn-primary" data-lang="es">Descargar</a><a href="#download"
+                    class="btn-primary" data-lang="en" style="display:none">Download</a></li>
         </ul>
     </nav>
 
     <header class="hero">
         <div class="hero-content">
-            <h1 class="fade-in">Tu llama interna empieza con un <span>suspiro</span>.</h1>
-            <p class="fade-in delay-1">Domina técnicas de respiración como el Método Wim Hof, Box Breathing y Pranayama
-                para potenciar tu energía y reducir el estrés.</p>
+            <h1 class="fade-in">
+                <span data-lang="es">Enciende tu energía</span>
+                <span data-lang="en" style="display:none">Ignite your energy</span>
+                <br>
+                <span class="highlight" data-lang="es">en minutos.</span>
+                <span class="highlight" data-lang="en" style="display:none">in minutes.</span>
+            </h1>
+
+            <p class="fade-in delay-1" data-lang="es">
+                ¿Cansado o desconcentrado? No necesitas meditación pasiva, necesitas acción. <strong>IGNITION</strong>
+                activa tu sistema nervioso y enciende tu potencial a través de la respiración (Método Wim Hof).
+            </p>
+            <p class="fade-in delay-1" data-lang="en" style="display:none">
+                Tired or unfocused? You don't need passive meditation, you need action. <strong>IGNITION</strong>
+                activates your nervous system and ignites your potential through breathing (Wim Hof Method).
+            </p>
+
             <div class="hero-btns fade-in delay-2">
                 <a href="#download" class="download-badge">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
@@ -36,63 +65,133 @@
                 </a>
             </div>
         </div>
+
         <div class="hero-visual fade-in delay-3">
-            <div class="animated-circle"></div>
-            <!-- Aquí podrías poner una imagen de la app si la tuvieras pública -->
-            <div class="app-mockup">
-                <div class="mockup-screen">
-                    <div class="mockup-content">
-                        <div class="breath-timer">00:15</div>
-                        <div class="breath-instruction">Inhala profondamente</div>
-                    </div>
-                </div>
+            <div class="glow-effect"></div>
+            <div class="phone-frame">
+                <!-- Spanish Screenshot -->
+                <img src="graficas/screenapp/español/Screenshot_1766264093.png" alt="App Screenshot" id="hero-img-es"
+                    data-lang="es">
+                <!-- English Screenshot (Hidden by default) -->
+                <img src="graficas/screenapp/Ingles/Screenshot_1766263991.png" alt="App Screenshot" id="hero-img-en"
+                    data-lang="en" style="display:none">
             </div>
         </div>
     </header>
 
     <section id="features" class="features">
-        <h2 class="section-title">Diseñado para tu máximo potencial</h2>
+        <div class="section-header">
+            <h2 class="section-title" data-lang="es">Diseñado para tu bienestar</h2>
+            <h2 class="section-title" data-lang="en" style="display:none">Designed for your wellness</h2>
+            <p class="section-subtitle" data-lang="es">Herramientas poderosas en una interfaz simple.</p>
+            <p class="section-subtitle" data-lang="en" style="display:none">Powerful tools in a simple interface.</p>
+        </div>
+
         <div class="feature-grid">
+            <!-- Feature 1 -->
             <div class="feature-card">
-                <div class="icon">🧘</div>
-                <h3>Sesiones Guiadas</h3>
-                <p>Navega a través de técnicas probadas científicamente con audio y visuales sincronizados.</p>
+                <div class="icon-box"><i class="fa-solid fa-mobile-screen"></i></div>
+                <h3 data-lang="es">Práctica Silenciosa</h3>
+                <h3 data-lang="en" style="display:none">Silent Practice</h3>
+                <p data-lang="es">Guía 100% háptica (vibración). Cierra los ojos y sigue el ritmo sin necesitar audio,
+                    ideal para practicar en cualquier lugar sin molestar.</p>
+                <p data-lang="en" style="display:none">100% haptic guidance (vibration). Close your eyes and follow the
+                    rhythm without audio, perfect for practicing anywhere discreetly.</p>
             </div>
+
+            <!-- Feature 2 -->
             <div class="feature-card">
-                <div class="icon">⚡</div>
-                <h3>Ritmo Adaptable</h3>
-                <p>Ajusta la velocidad de respiración a tu nivel actual. Ideal para principiantes y expertos.</p>
+                <div class="icon-box"><i class="fa-solid fa-bolt"></i></div>
+                <h3 data-lang="es">Energía Instantánea</h3>
+                <h3 data-lang="en" style="display:none">Instant Energy</h3>
+                <p data-lang="es">Activa tu sistema nervioso y mejora tu vitalidad con solo 3 rondas de respiración
+                    basada en Wim Hof.</p>
+                <p data-lang="en" style="display:none">Activate your nervous system and boost vitality with just 3
+                    rounds of Wim Hof based breathing.</p>
             </div>
+
+            <!-- Feature 3 -->
             <div class="feature-card">
-                <div class="icon">📳</div>
-                <h3>Feedback Háptico</h3>
-                <p>Siente cuándo inhalar y exhalar a través de vibraciones inteligentes, sin necesidad de mirar la
-                    pantalla.</p>
+                <div class="icon-box"><i class="fa-solid fa-moon"></i></div>
+                <h3 data-lang="es">Día y Noche</h3>
+                <h3 data-lang="en" style="display:none">Day & Night</h3>
+                <p data-lang="es">Interfaz 100% adaptable que no cansa tu vista. Practica al despertar con energía o
+                    relájate antes de dormir con el Modo Oscuro.</p>
+                <p data-lang="en" style="display:none">100% adaptive interface that rests your eyes. Practice with
+                    energy upon waking or relax before sleep with Dark Mode.</p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-card">
+                <div class="icon-box"><i class="fa-solid fa-stopwatch"></i></div>
+                <h3 data-lang="es">Precisión Milimétrica</h3>
+                <h3 data-lang="en" style="display:none">Millimetric Precision</h3>
+                <p data-lang="es">Temporizador exacto para medir tus retenciones y visualizar tu evolución. Lo que no se
+                    mide, no se mejora.</p>
+                <p data-lang="en" style="display:none">Precise timer to measure your retentions and visualize your
+                    evolution. What is not measured cannot be improved.</p>
             </div>
         </div>
     </section>
 
     <section id="pro" class="pro-section">
-        <div class="pro-card">
-            <div class="pro-badge">RECOMENDADO</div>
-            <h2>Lleva tu práctica al nivel PRO</h2>
-            <p>Acceso ilimitado a todas las herramientas de personalización y seguimiento.</p>
-            <ul class="pro-list">
-                <li>✅ Historial completo de sesiones</li>
-                <li>✅ Estadísticas de progreso avanzadas</li>
-                <li>✅ Exportación de datos de salud</li>
-                <li>✅ Personalización total de ritmos</li>
-                <li>✅ Experiencia sin publicidad</li>
-            </ul>
-            <a href="#download" class="btn-pro">Desbloquear IGNITION PRO</a>
+        <div class="pro-container">
+            <div class="pro-content">
+                <div class="pro-title">
+                    <span data-lang="es">Desbloquea</span>
+                    <span data-lang="en" style="display:none">Unlock</span>
+                    Ignition <span class="pro-badge">PRO</span>
+                </div>
+                <p class="pro-desc" data-lang="es">Lleva tu práctica al siguiente nivel con acceso total.</p>
+                <p class="pro-desc" data-lang="en" style="display:none">Take your practice to the next level with full
+                    access.</p>
+
+                <div class="pro-grid">
+                    <div class="pro-item">
+                        <span class="check-icon">✓</span>
+                        <span data-lang="es">Sesiones Ilimitadas</span>
+                        <span data-lang="en" style="display:none">Unlimited Sessions</span>
+                    </div>
+                    <div class="pro-item">
+                        <span class="check-icon">✓</span>
+                        <span data-lang="es">Configuración Completa</span>
+                        <span data-lang="en" style="display:none">Full Configuration</span>
+                    </div>
+                    <div class="pro-item">
+                        <span class="check-icon">✓</span>
+                        <span data-lang="es">Historial y Estadísticas Avanzadas</span>
+                        <span data-lang="en" style="display:none">History & Advanced Stats</span>
+                    </div>
+                    <div class="pro-item">
+                        <span class="check-icon">✓</span>
+                        <span data-lang="es">Respaldo en la Nube</span>
+                        <span data-lang="en" style="display:none">Cloud Backup</span>
+                    </div>
+                    <div class="pro-item">
+                        <span class="check-icon">✓</span>
+                        <span data-lang="es">Sincronización Multi-dispositivo</span>
+                        <span data-lang="en" style="display:none">Multi-device Sync</span>
+                    </div>
+                    <div class="pro-item">
+                        <span class="check-icon">✓</span>
+                        <span data-lang="es">Experiencia sin Anuncios</span>
+                        <span data-lang="en" style="display:none">Ad-free Experience</span>
+                    </div>
+                </div>
+
+                <a href="#download" class="btn-primary">
+                    <span data-lang="es">Obtener PRO</span>
+                    <span data-lang="en" style="display:none">Get PRO</span>
+                </a>
+            </div>
         </div>
     </section>
 
     <section id="download" class="download-cta">
-        <h2>Empieza hoy mismo</h2>
-        <p>Disponible ahora para dispositivos Android.</p>
-        <div class="cta-badges">
-            <a href="#" class="download-badge-large">
+        <h2 data-lang="es">Comienza tu transformación hoy</h2>
+        <h2 data-lang="en" style="display:none">Start your transformation today</h2>
+        <div style="margin-top: 30px;">
+            <a href="#" class="download-badge">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
                     alt="Google Play">
             </a>
@@ -100,14 +199,52 @@
     </section>
 
     <footer class="footer">
-        <div class="footer-bottom">
-            <p>&copy; 2024 Oktober LAB. Todos los derechos reservados.</p>
-            <div class="footer-links">
-                <a href="https://gw86-ar.github.io/IGNITION_Breathwork/privacy-policy.html">Privacidad</a>
-                <a href="mailto:oktoberlabapp@gmail.com">Soporte</a>
-            </div>
+        <div>
+            <p>&copy; 2024 Oktober LAB.</p>
+        </div>
+        <div class="footer-links">
+            <a href="privacy-policy.html" data-lang="es">Privacidad</a>
+            <a href="privacy-policy.html" data-lang="en" style="display:none">Privacy</a>
+
+            <a href="delete-account.html" data-lang="es">Eliminar Cuenta</a>
+            <a href="delete-account.html" data-lang="en" style="display:none">Delete Account</a>
+
+            <a href="mailto:oktoberlabapp@gmail.com">Soporte</a>
         </div>
     </footer>
+
+    <script>
+        function setLanguage(lang) {
+            // Update buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.lang-btn[onclick="setLanguage('${lang}')"]`).classList.add('active');
+
+            // Hide all language elements
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                if (el.dataset.lang === lang) {
+                    el.style.display = ''; // Restore default display
+                    // Specific fix for hero spans which might default to inline
+                    if (el.tagName === 'SPAN') {
+                        el.style.display = 'inline';
+                    }
+                    if (el.classList.contains('btn-primary')) {
+                        el.style.display = 'inline-block';
+                    }
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+
+            // Save preference
+            localStorage.setItem('ignite_lang', lang);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('ignite_lang') || 'es';
+            setLanguage(savedLang);
+        });
+    </script>
 </body>
 
 </html>

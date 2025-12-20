@@ -4,117 +4,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Deletion - IGNITION Breathwork</title>
+    <title>Delete Account | IGNITION</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f4f4f9;
-        }
-
         .container {
-            background: white;
+            max-width: 800px;
+            margin: 100px auto;
             padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .lang-section {
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            background: var(--card-bg);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
         }
 
         h1 {
-            color: #1a1a2e;
-            border-bottom: 2px solid #EA580C;
-            padding-bottom: 10px;
-            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: var(--primary-color);
         }
 
         h2 {
-            color: #EA580C;
-            margin-top: 25px;
-            font-size: 1.3em;
-        }
-
-        .email {
-            font-weight: bold;
-            color: #EA580C;
-        }
-
-        .footer {
             margin-top: 30px;
-            font-size: 0.9em;
-            color: #666;
-            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: white;
         }
 
-        .divider {
-            height: 2px;
-            background: #EA580C;
-            margin: 40px 0;
-            opacity: 0.2;
+        p {
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        .lang-switch {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
         }
     </style>
 </head>
 
 <body>
+
     <div class="container">
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="setLang('es')">Español</button>
+            <button class="lang-btn" onclick="setLang('en')">English</button>
+        </div>
 
-        <!-- SPANISH VERSION -->
-        <div class="lang-section">
+        <div id="content-es">
             <h1>Solicitud de Eliminación de Cuenta</h1>
-            <p>En <strong>IGNITION Breathwork</strong> (Oktober LAB), respetamos tu derecho a la privacidad.</p>
+            <p>En IGNITION Breathwork, valoramos tu privacidad y tus derechos sobre tus datos.</p>
 
-            <h2>¿Cómo solicitar la eliminación?</h2>
-            <p>Para eliminar tu cuenta y todos los datos asociados, sigue estos pasos:</p>
-            <ol>
-                <li>Envía un correo a <span class="email">oktoberlabapp@gmail.com</span></li>
-                <li>Asunto: "Solicitud de Eliminación de Cuenta - [Nombre de Usuario]"</li>
-                <li>Envía el correo desde la misma dirección con la que te registraste.</li>
-            </ol>
+            <h2>¿Cómo eliminar mi cuenta y datos?</h2>
+            <p>Si deseas eliminar permanentemente tu cuenta y todos los datos asociados (historial, estadísticas,
+                información de perfil), por favor envía un correo electrónico a:</p>
+            <p style="color: white; font-weight: bold;">oktoberlabapp@gmail.com</p>
+            <p>Con el asunto: <strong>"Eliminar Cuenta - [Tu Correo de Registro]"</strong>.</p>
 
-            <h2>¿Qué datos se borrarán?</h2>
-            <ul>
-                <li>Perfil de usuario en Firebase.</li>
-                <li>Historial de sesiones sincronizado.</li>
-                <li>Vínculo de usuario en RevenueCat.</li>
+            <h2>¿Qué datos se eliminan?</h2>
+            <p>Al procesar tu solicitud, eliminaremos permanentemente:</p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-bottom: 15px;">
+                <li>Tu cuenta de usuario y credenciales de acceso.</li>
+                <li>Tu historial de sesiones de respiración.</li>
+                <li>Tus estadísticas y rachas.</li>
+                <li>Cualquier configuración personalizada guardada en la nube.</li>
             </ul>
+
+            <h2>Tiempo de procesamiento</h2>
+            <p>Tu solicitud será procesada manualmente por nuestro equipo de soporte en un plazo máximo de 7 días
+                hábiles. Recibirás una confirmación por correo una vez que tus datos hayan sido borrados.</p>
         </div>
 
-        <div class="divider"></div>
-
-        <!-- ENGLISH VERSION -->
-        <div class="lang-section">
+        <div id="content-en" style="display: none;">
             <h1>Account Deletion Request</h1>
-            <p>At <strong>IGNITION Breathwork</strong> (Oktober LAB), we respect your right to privacy.</p>
+            <p>At IGNITION Breathwork, we value your privacy and your data rights.</p>
 
-            <h2>How to request deletion?</h2>
-            <p>To delete your account and all associated data, follow these steps:</p>
-            <ol>
-                <li>Send an email to <span class="email">oktoberlabapp@gmail.com</span></li>
-                <li>Subject: "Account Deletion Request - [Username]"</li>
-                <li>Send the email from the address used for registration.</li>
-            </ol>
+            <h2>How to delete my account and data?</h2>
+            <p>If you wish to permanently delete your account and all associated data (history, stats, profile info),
+                please send an email to:</p>
+            <p style="color: white; font-weight: bold;">oktoberlabapp@gmail.com</p>
+            <p>With the subject: <strong>"Delete Account - [Your Registered Email]"</strong>.</p>
 
-            <h2>What data will be deleted?</h2>
-            <ul>
-                <li>User profile in Firebase.</li>
-                <li>Synchronized session history.</li>
-                <li>User mapping in RevenueCat.</li>
+            <h2>What data is deleted?</h2>
+            <p>Upon processing your request, we will permanently delete:</p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-bottom: 15px;">
+                <li>Your user account and login credentials.</li>
+                <li>Your breathing session history.</li>
+                <li>Your statistics and streaks.</li>
+                <li>Any custom settings saved in the cloud.</li>
             </ul>
+
+            <h2>Processing Time</h2>
+            <p>Your request will be manually processed by our support team within 7 business days. You will receive a
+                confirmation email once your data has been wiped.</p>
         </div>
 
-        <div class="footer">
-            <p>&copy; 2024 IGNITION Breathwork - Oktober LAB</p>
-            <p><a href="privacy-policy.html">Privacy Policy / Política de Privacidad</a></p>
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="index.html" style="color: var(--primary-color); text-decoration: none;">&larr; Volver a Ignition /
+                Back to Ignition</a>
         </div>
     </div>
+
+    <script>
+        function setLang(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            if (lang === 'es') {
+                document.getElementById('content-es').style.display = 'block';
+                document.getElementById('content-en').style.display = 'none';
+                document.querySelector('button[onclick="setLang(\'es\')"]').classList.add('active');
+            } else {
+                document.getElementById('content-es').style.display = 'none';
+                document.getElementById('content-en').style.display = 'block';
+                document.querySelector('button[onclick="setLang(\'en\')"]').classList.add('active');
+            }
+        }
+    </script>
 </body>
 
 </html>
