@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminación de Cuenta - IGNITION Breathwork</title>
+    <title>Account Deletion - IGNITION Breathwork</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f4f4f9;
@@ -23,15 +23,23 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        .lang-section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
         h1 {
             color: #1a1a2e;
             border-bottom: 2px solid #EA580C;
             padding-bottom: 10px;
+            font-size: 1.8em;
         }
 
         h2 {
             color: #EA580C;
-            margin-top: 30px;
+            margin-top: 25px;
+            font-size: 1.3em;
         }
 
         .email {
@@ -40,44 +48,71 @@
         }
 
         .footer {
-            margin-top: 50px;
+            margin-top: 30px;
             font-size: 0.9em;
             color: #666;
             text-align: center;
+        }
+
+        .divider {
+            height: 2px;
+            background: #EA580C;
+            margin: 40px 0;
+            opacity: 0.2;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Solicitud de Eliminación de Cuenta</h1>
-        <p>En <strong>IGNITION Breathwork</strong> (desarrollado por Oktober LAB), respetamos tu derecho a la privacidad
-            y el control de tus datos.</p>
 
-        <h2>¿Cómo solicitar la eliminación?</h2>
-        <p>Para eliminar tu cuenta y todos los datos asociados, sigue estos pasos:</p>
-        <ol>
-            <li>Envía un correo electrónico a <span class="email">oktoberlabapp@gmail.com</span></li>
-            <li>Usa como asunto: "Solicitud de Eliminación de Cuenta - [Tu Nombre de Usuario]"</li>
-            <li>Envía el correo desde la misma dirección con la que te registraste en la app.</li>
-        </ol>
+        <!-- SPANISH VERSION -->
+        <div class="lang-section">
+            <h1>Solicitud de Eliminación de Cuenta</h1>
+            <p>En <strong>IGNITION Breathwork</strong> (Oktober LAB), respetamos tu derecho a la privacidad.</p>
 
-        <h2>¿Qué datos se eliminarán?</h2>
-        <p>Una vez procesada tu solicitud (máximo 7 días hábiles):</p>
-        <ul>
-            <li>Se eliminará tu perfil de usuario de nuestra base de datos (Firebase).</li>
-            <li>Se borrará tu historial de sesiones sincronizado en la nube.</li>
-            <li>Se desvinculará tu ID de usuario de los registros de RevenueCat.</li>
-        </ul>
+            <h2>¿Cómo solicitar la eliminación?</h2>
+            <p>Para eliminar tu cuenta y todos los datos asociados, sigue estos pasos:</p>
+            <ol>
+                <li>Envía un correo a <span class="email">oktoberlabapp@gmail.com</span></li>
+                <li>Asunto: "Solicitud de Eliminación de Cuenta - [Nombre de Usuario]"</li>
+                <li>Envía el correo desde la misma dirección con la que te registraste.</li>
+            </ol>
 
-        <h2>Datos que se conservan</h2>
-        <p>Solo conservaremos información transaccional de compras (recibos) para fines contables y legales exigidos por
-            las plataformas de pago (Google Play), los cuales no pueden ser eliminados por motivos de seguridad
-            financiera.</p>
+            <h2>¿Qué datos se borrarán?</h2>
+            <ul>
+                <li>Perfil de usuario en Firebase.</li>
+                <li>Historial de sesiones sincronizado.</li>
+                <li>Vínculo de usuario en RevenueCat.</li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ENGLISH VERSION -->
+        <div class="lang-section">
+            <h1>Account Deletion Request</h1>
+            <p>At <strong>IGNITION Breathwork</strong> (Oktober LAB), we respect your right to privacy.</p>
+
+            <h2>How to request deletion?</h2>
+            <p>To delete your account and all associated data, follow these steps:</p>
+            <ol>
+                <li>Send an email to <span class="email">oktoberlabapp@gmail.com</span></li>
+                <li>Subject: "Account Deletion Request - [Username]"</li>
+                <li>Send the email from the address used for registration.</li>
+            </ol>
+
+            <h2>What data will be deleted?</h2>
+            <ul>
+                <li>User profile in Firebase.</li>
+                <li>Synchronized session history.</li>
+                <li>User mapping in RevenueCat.</li>
+            </ul>
+        </div>
 
         <div class="footer">
             <p>&copy; 2024 IGNITION Breathwork - Oktober LAB</p>
-            <p><a href="privacy-policy.html">Volver a Política de Privacidad</a></p>
+            <p><a href="privacy-policy.html">Privacy Policy / Política de Privacidad</a></p>
         </div>
     </div>
 </body>
