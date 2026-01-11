@@ -15,6 +15,16 @@
 
 <body>
 
+    <!-- Status Banner -->
+    <div class="status-banner">
+        <div class="banner-content">
+            <span class="pulse-icon"></span>
+            <span data-lang="es">ESTADO: <strong>Prueba cerrada</strong> - Pronto a lanzamiento oficial</span>
+            <span data-lang="en" style="display:none">STATUS: <strong>Closed Beta</strong> - Launching soon</span>
+        </div>
+    </div>
+
+
     <!-- Language Toggle -->
     <div class="lang-switch-container">
         <button class="lang-btn active" onclick="setLanguage('es')">ES</button>
@@ -59,10 +69,13 @@
             </p>
 
             <div class="hero-btns fade-in delay-2">
-                <a href="#download" class="download-badge">
+                <a href="https://play.google.com/apps/testing/com.oktober.ignite" class="download-badge"
+                    target="_blank">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
                         alt="Google Play">
                 </a>
+                <a href="#beta-form" class="btn-secondary" data-lang="es">Solicitar Acceso Beta</a>
+                <a href="#beta-form" class="btn-secondary" data-lang="en" style="display:none">Request Beta Access</a>
             </div>
         </div>
 
@@ -189,6 +202,59 @@
         </div>
     </section>
 
+    <!-- Beta Participation Form Section -->
+    <section id="beta-form" class="beta-section">
+        <div class="beta-container">
+            <div class="beta-header">
+                <h2 data-lang="es">Participa en la Beta de Enero</h2>
+                <h2 data-lang="en" style="display:none">Join the January Beta</h2>
+                <p data-lang="es">Si ya eres usuario registrado, solicita tu acceso para probar las novedades de
+                    IGNITION durante este mes.</p>
+                <p data-lang="en" style="display:none">If you are a registered user, request access to test the latest
+                    IGNITION features this month.</p>
+            </div>
+
+            <div class="form-wrapper">
+                <form action="https://formspree.io/f/oktoberlabapp@gmail.com" method="POST" class="styled-form">
+                    <div class="form-group">
+                        <label for="name" data-lang="es">Nombre Completo</label>
+                        <label for="name" data-lang="en" style="display:none">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Tu nombre...">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" data-lang="es">Correo Electrónico (el de tu cuenta)</label>
+                        <label for="email" data-lang="en" style="display:none">Email Address (your account
+                            email)</label>
+                        <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="device" data-lang="es">Dispositivo móvil</label>
+                        <label for="device" data-lang="en" style="display:none">Mobile Device</label>
+                        <input type="text" id="device" name="device" placeholder="Ej: Samsung S21, iPhone 13">
+                    </div>
+                    <div class="form-group">
+                        <label for="message" data-lang="es">¿Por qué quieres participar?</label>
+                        <label for="message" data-lang="en" style="display:none">Why do you want to join?</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Cuéntanos un poco..."></textarea>
+                    </div>
+                    <!-- Hidden field to specify it's for the IGNITION Beta -->
+                    <input type="hidden" name="_subject" value="Nueva solicitud para Beta IGNITION">
+                    <input type="hidden" name="_next" value="https://gw86-ar.github.io/IGNITION_Breathwork/">
+
+                    <button type="submit" class="btn-primary" style="width: 100%;">
+                        <span data-lang="es">Enviar Solicitud</span>
+                        <span data-lang="en" style="display:none">Submit Request</span>
+                    </button>
+                    <p class="form-footer" data-lang="es">Al enviar, recibirás instrucciones en tu correo si eres
+                        seleccionado.</p>
+                    <p class="form-footer" data-lang="en" style="display:none">By submitting, you will receive
+                        instructions in your email if selected.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
     <!-- Visual Divider / App Showcase -->
     <section class="visual-showcase" style="padding: 100px 20px; text-align: center; background: #0a0a14;">
         <div
@@ -215,7 +281,7 @@
         <h2 data-lang="es">¿Listo para encender tu potencial?</h2>
         <h2 data-lang="en" style="display:none">Ready to ignite your potential?</h2>
         <div style="margin-top: 30px;">
-            <a href="#" class="download-badge">
+            <a href="https://play.google.com/apps/testing/com.oktober.ignite" class="download-badge" target="_blank">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
                     alt="Google Play">
             </a>
@@ -248,11 +314,16 @@
             document.querySelectorAll('[data-lang]').forEach(el => {
                 if (el.dataset.lang === lang) {
                     el.style.display = ''; // Restore default display
-                    // Specific fix for hero spans which might default to inline
-                    if (el.tagName === 'SPAN') {
+
+                    // Specific display fixes
+                    const tagName = el.tagName;
+                    const classList = el.classList;
+
+                    if (tagName === 'SPAN') {
                         el.style.display = 'inline';
-                    }
-                    if (el.classList.contains('btn-primary')) {
+                    } else if (classList.contains('btn-primary') ||
+                        classList.contains('btn-secondary') ||
+                        classList.contains('download-badge')) {
                         el.style.display = 'inline-block';
                     }
                 } else {
