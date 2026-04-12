@@ -4,13 +4,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IGNITION Breathwork | Domina tu Respiración</title>
+    <title>IGNITION Breathwork | Beta Cerrada v1.0.12</title>
+    <meta name="description" content="IGNITION Breathwork - Prueba Beta Cerrada v1.0.12. Una herramienta táctica de respiración basada en Tummo para encender tu sistema nervioso.">
+    <meta name="msvalidate.01" content="D17849C2B29F6A8B8F2E2E2E2E2E2E2E">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ─── BETA-SPECIFIC STYLES ─── */
+        .status-banner {
+            background: transparent;
+            border-bottom: none;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1002;
+            padding: 10px 20px;
+            pointer-events: none; /* Permite clickear los botones de la navbar que estén debajo */
+        }
+        .status-banner .banner-content {
+            justify-content: center;
+            opacity: 0.9;
+        }
+        .status-banner .pulse-icon {
+            background: #FF6B35;
+            box-shadow: 0 0 8px #FF6B35;
+        }
+
+        /* Steps Section */
+        .steps-section {
+            padding: 80px 20px;
+            background: #0d0d20;
+        }
+        .steps-container {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .steps-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-top: 48px;
+        }
+        .step-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            background: #12122a;
+            border: 1px solid #2a2a4a;
+            border-radius: 20px;
+            padding: 28px;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .step-card:hover {
+            border-color: #FF6B3566;
+            transform: translateX(6px);
+        }
+        .step-number {
+            min-width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .step-number.orange { background: #FF6B3522; color: #FF6B35; border: 2px solid #FF6B3555; }
+        .step-number.purple { background: #7c3aed22; color: #a78bfa; border: 2px solid #7c3aed55; }
+        .step-number.green  { background: #10b98122; color: #34d399; border: 2px solid #10b98155; }
+
+        .step-content h3 { color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+        .step-content p { color: #7070a0; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+        .step-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .step-link.orange { background: #FF6B3522; color: #FF6B35; border: 1px solid #FF6B3555; }
+        .step-link.orange:hover { background: #FF6B35; color: #fff; }
+        .step-link.purple { background: #7c3aed22; color: #a78bfa; border: 1px solid #7c3aed55; }
+        .step-link.purple:hover { background: #7c3aed; color: #fff; }
+        .step-link.green  { background: #10b98122; color: #34d399; border: 1px solid #10b98155; }
+        .step-link.green:hover  { background: #10b981; color: #fff; }
+
+        /* Note box */
+        .beta-note {
+            background: #FF6B350d;
+            border: 1px solid #FF6B3533;
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin-top: 16px;
+            color: #FF6B35cc;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        .beta-note i { margin-right: 6px; }
+
+        /* How to review section */
+        .review-section {
+            padding: 80px 20px;
+            background: #0a0a18;
+        }
+        .review-container { max-width: 860px; margin: 0 auto; }
+
+        /* Review step cards — 2026 redesign */
+        .review-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 52px;
+        }
+        .review-step-card {
+            position: relative;
+            background: rgba(10, 12, 28, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 22px;
+            padding: 36px 28px 32px;
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.23,1,0.32,1),
+                        border-color 0.35s,
+                        box-shadow 0.35s;
+        }
+        /* Ghost step number behind card */
+        .review-step-card::after {
+            content: attr(data-num);
+            position: absolute;
+            bottom: -16px;
+            right: 10px;
+            font-size: 7.5rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.025);
+            line-height: 1;
+            pointer-events: none;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -4px;
+        }
+        /* Gradient glow border on hover */
+        .review-step-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(8,145,178,0.5) 0%, rgba(234,88,12,0.3) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.35s;
+            z-index: 0;
+        }
+        .review-step-card:hover::before { opacity: 1; }
+        .review-step-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.4), 0 0 40px rgba(8,145,178,0.07);
+        }
+        .review-step-card > * { position: relative; z-index: 1; }
+        /* Icon glow container */
+        .review-step-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            background: rgba(8, 145, 178, 0.07);
+            border: 1px solid rgba(8, 145, 178, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 22px;
+            box-shadow: 0 0 20px rgba(8,145,178,0.07), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .review-step-card:hover .review-step-icon {
+            background: rgba(8,145,178,0.14);
+            box-shadow: 0 0 32px rgba(8,145,178,0.2), inset 0 1px 0 rgba(255,255,255,0.07);
+        }
+        .review-step-icon svg { width: 24px; height: 24px; stroke: var(--primary-color); }
+        .review-step-num {
+            font-size: 0.68rem;
+            color: var(--primary-color);
+            font-weight: 800;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+        .review-step-card h4 { color: #e2e8f0; font-size: 0.98rem; font-weight: 700; margin-bottom: 8px; }
+        .review-step-card p  { color: #4a5470; font-size: 0.83rem; line-height: 1.6; margin: 0; }
+        .review-arrow { display: none !important; }
+
+        /* Note box — REMOVED in steps, now inline italic */
+        .step-note {
+            color: #5a5a80;
+            font-style: italic;
+            font-size: 0.88rem;
+        }
+
+        /* Hero badges (small pills) */
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+            margin-bottom: 32px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+        .hero-badge.green  { background: #10b98115; color: #34d399; border: 1px solid #10b98133; }
+        .hero-badge.purple { background: #7c3aed15; color: #a78bfa; border: 1px solid #7c3aed33; }
+        .hero-badge i { font-size: 0.85rem; }
+
+        /* Review arrows — hidden, cards use gap instead */
+        .review-arrow { display: none !important; }
+
+        /* Download CTA section enhancements */
+        .download-sub {
+            color: #6060a0;
+            margin-top: 12px;
+            margin-bottom: 32px;
+            font-size: 1rem;
+        }
+        .download-cta-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .download-cta-btns .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+        }
+
+        /* Bug section — 2026 unified list */
+        .bug-section {
+            padding: 80px 20px;
+            background: #080810;
+        }
+        .bug-container { max-width: 760px; margin: 0 auto; }
+        .bug-list {
+            margin-top: 48px;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            background: rgba(10,12,28,0.5);
+            backdrop-filter: blur(20px);
+        }
+        .bug-list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 24px 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: background 0.25s;
+        }
+        .bug-list-item:last-child { border-bottom: none; }
+        .bug-list-item:hover { background: rgba(255,255,255,0.02); }
+        .bug-list-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(8,145,178,0.07);
+            border: 1px solid rgba(8,145,178,0.14);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+        .bug-list-icon svg { width: 18px; height: 18px; stroke: var(--primary-color); }
+        .bug-list-content { flex: 1; min-width: 0; }
+        .bug-list-content h4 { color: #dde4ee; font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+        .bug-list-content p { color: #4a5470; font-size: 0.86rem; line-height: 1.5; margin: 0; }
+        .bug-list-cta {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-color);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgba(8,145,178,0.25);
+            padding: 7px 14px;
+            border-radius: 50px;
+            background: rgba(8,145,178,0.06);
+            white-space: nowrap;
+            transition: all 0.2s;
+            align-self: center;
+        }
+        .bug-list-cta:hover { background: var(--primary-color); color: #fff; border-color: transparent; }
+        .bug-list-cta.orange { color: #FF6B35; border-color: rgba(255,107,53,0.25); background: rgba(255,107,53,0.06); }
+        .bug-list-cta.orange:hover { background: #FF6B35; color: #fff; }
+        .bug-list-cta.red { color: #FF4757; border-color: rgba(255,71,87,0.25); background: rgba(255,71,87,0.06); }
+        .bug-list-cta.red:hover { background: #FF4757; color: #fff; }
+
+        /* Beta badge in hero */
+        .beta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #FF6B3518;
+            border: 1px solid #FF6B3555;
+            color: #FF6B35;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+        .beta-pill .dot {
+            width: 7px;
+            height: 7px;
+            background: #FF6B35;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Access info box */
+        .access-info {
+            background: #7c3aed11;
+            border: 1px solid #7c3aed44;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-top: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            max-width: 460px;
+        }
+        .access-info i { color: #a78bfa; font-size: 1.1rem; margin-top: 2px; }
+        .access-info p { color: #a0a0c0; font-size: 0.88rem; line-height: 1.5; margin: 0; }
+        .access-info strong { color: #c4b5fd; }
+
+        /* Full access banner */
+        .full-access-banner {
+            background: linear-gradient(135deg, #10b98115, #059f6611);
+            border: 1px solid #10b98133;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .full-access-banner i { color: #34d399; font-size: 1.5rem; }
+        .full-access-banner p { color: #a0c0b0; font-size: 0.92rem; margin: 0; line-height: 1.5; }
+        .full-access-banner strong { color: #34d399; }
+    </style>
 </head>
 
 <body>
@@ -19,11 +386,10 @@
     <div class="status-banner">
         <div class="banner-content">
             <span class="pulse-icon"></span>
-            <span data-lang="es">ESTADO: <strong>Prueba cerrada</strong> - Pronto a lanzamiento oficial</span>
-            <span data-lang="en" style="display:none">STATUS: <strong>Closed Beta</strong> - Launching soon</span>
+            <span data-lang="es">ESTADO: <strong>Prueba Beta Cerrada</strong> — v1.0.12 disponible para testers</span>
+            <span data-lang="en" style="display:none">STATUS: <strong>Closed Beta Test</strong> — v1.0.12 available for testers</span>
         </div>
     </div>
-
 
     <!-- Language Toggle -->
     <div class="lang-switch-container">
@@ -40,17 +406,19 @@
             </div>
         </div>
         <ul class="nav-links">
-            <li><a href="#features" data-lang="es">Experiencia</a><a href="#features" data-lang="en"
-                    style="display:none">Experience</a></li>
-            <li><a href="#pro" data-lang="es">Versión PRO</a><a href="#pro" data-lang="en" style="display:none">PRO
-                    Version</a></li>
-            <li><a href="#download" class="btn-primary" data-lang="es">Comenzar</a><a href="#download"
-                    class="btn-primary" data-lang="en" style="display:none">Get Started</a></li>
+            <li><a href="#features" data-lang="es">Experiencia</a><a href="#features" data-lang="en" style="display:none">Experience</a></li>
+            <li><a href="#join" class="btn-primary" data-lang="es">Solicitar Acceso</a><a href="#join" class="btn-primary" data-lang="en" style="display:none">Request Access</a></li>
         </ul>
     </nav>
 
     <header class="hero">
         <div class="hero-content">
+            <div class="beta-pill">
+                <span class="dot"></span>
+                <span data-lang="es">BETA CERRADA — v1.0.12</span>
+                <span data-lang="en" style="display:none">CLOSED BETA — v1.0.12</span>
+            </div>
+
             <h1 class="fade-in">
                 <span data-lang="es">Tu Bio-Hack</span>
                 <span data-lang="en" style="display:none">Your Bio-Hack</span>
@@ -68,14 +436,31 @@
                 nervous system and focus through rhythmic breathing and tactile feedback.
             </p>
 
-            <div class="hero-btns fade-in delay-2">
-                <a href="https://play.google.com/apps/testing/com.oktober.ignite" class="download-badge"
-                    target="_blank">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-                        alt="Google Play">
+            <!-- Badges inline — no pesados, solo señales -->
+            <div class="hero-badges fade-in delay-2">
+                <span class="hero-badge green">
+                    <i class="fa-solid fa-unlock"></i>
+                    <span data-lang="es">Acceso completo en beta</span>
+                    <span data-lang="en" style="display:none">Full beta access</span>
+                </span>
+                <span class="hero-badge purple">
+                    <i class="fa-brands fa-android"></i>
+                    <span data-lang="es">Solo Android</span>
+                    <span data-lang="en" style="display:none">Android only</span>
+                </span>
+            </div>
+
+            <div class="hero-btns fade-in delay-3">
+                <a href="#join" class="btn-primary" id="hero-cta-es" data-lang="es">
+                    <i class="fa-solid fa-user-plus" style="margin-right: 8px;"></i>Solicitar Acceso
                 </a>
-                <a href="#beta-form" class="btn-secondary" data-lang="es">Solicitar Acceso Beta</a>
-                <a href="#beta-form" class="btn-secondary" data-lang="en" style="display:none">Request Beta Access</a>
+                <a href="#join" class="btn-primary" id="hero-cta-en" data-lang="en" style="display:none">
+                    <i class="fa-solid fa-user-plus" style="margin-right: 8px;"></i>Request Access
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.oktober.ignite"
+                   class="download-badge" target="_blank" rel="noopener noreferrer">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play">
+                </a>
             </div>
         </div>
 
@@ -96,9 +481,9 @@
             <h2 class="section-title" data-lang="es">Siente el Ritmo</h2>
             <h2 class="section-title" data-lang="en" style="display:none">Feel the Rhythm</h2>
             <p class="section-subtitle" data-lang="es">Una experiencia puramente sensorial diseñada para el enfoque
-                absoluto.</p>
+                absoluto. Acceso completo durante la beta.</p>
             <p class="section-subtitle" data-lang="en" style="display:none">A purely sensory experience designed for
-                absolute focus.</p>
+                absolute focus. Full access during beta.</p>
         </div>
 
         <div class="feature-grid">
@@ -148,149 +533,253 @@
         </div>
     </section>
 
-    <section id="pro" class="pro-section">
-        <div class="pro-container">
-            <div class="pro-content">
-                <div class="pro-title">
-                    <span data-lang="es">Domina la técnica con</span>
-                    <span data-lang="en" style="display:none">Master the technique with</span>
-                    IGNITION <span class="pro-badge">PRO</span>
-                </div>
-                <p class="pro-desc" data-lang="es">Lleva tu potencial al máximo sin límites ni preocupaciones de pérdida
-                    de datos.</p>
-                <p class="pro-desc" data-lang="en" style="display:none">Push your potential to the max without limits or
-                    data loss worries.</p>
+    <!-- ─── HOW TO JOIN — 3 STEPS ─── -->
+    <section id="join" class="steps-section">
+        <div class="steps-container">
+            <div class="section-header" style="margin-bottom: 0;">
+                <h2 class="section-title" data-lang="es">Cómo unirte a la Beta</h2>
+                <h2 class="section-title" data-lang="en" style="display:none">How to Join the Beta</h2>
+                <p class="section-subtitle" data-lang="es">3 pasos para tener acceso a la prueba cerrada en Google Play</p>
+                <p class="section-subtitle" data-lang="en" style="display:none">3 steps to get access to the closed test on Google Play</p>
+            </div>
 
-                <div class="pro-grid">
-                    <div class="pro-item">
-                        <span class="check-icon">✓</span>
-                        <span data-lang="es">Sesiones Diarias Ilimitadas</span>
-                        <span data-lang="en" style="display:none">Unlimited Daily Sessions</span>
-                    </div>
-                    <div class="pro-item">
-                        <span class="check-icon">✓</span>
-                        <span data-lang="es">Respaldo Total en la Nube</span>
-                        <span data-lang="en" style="display:none">Full Cloud Backup</span>
-                    </div>
-                    <div class="pro-item">
-                        <span class="check-icon">✓</span>
-                        <span data-lang="es">Sincronización Permanente</span>
-                        <span data-lang="en" style="display:none">Permanent Sync</span>
-                    </div>
-                    <div class="pro-item">
-                        <span class="check-icon">✓</span>
-                        <span data-lang="es">Historial Completo de Retenciones</span>
-                        <span data-lang="en" style="display:none">Full Retention History</span>
-                    </div>
-                    <div class="pro-item">
-                        <span class="check-icon">✓</span>
-                        <span data-lang="es">Configuración Avanzada Libre</span>
-                        <span data-lang="en" style="display:none">Free Advanced Settings</span>
-                    </div>
-                    <div class="pro-item">
-                        <span class="check-icon">✓</span>
-                        <span data-lang="es">Experiencia sin Ads</span>
-                        <span data-lang="en" style="display:none">Ad-free Experience</span>
+            <div class="steps-grid">
+                <!-- Step 1 -->
+                <div class="step-card">
+                    <div class="step-number orange">1</div>
+                    <div class="step-content">
+                        <h3 data-lang="es">Únete al Grupo de Testers</h3>
+                        <h3 data-lang="en" style="display:none">Join the Testers Group</h3>
+                        <p data-lang="es">Solicita membresía en el Google Group oficial de IGNITION. Al ser aceptado, tu cuenta de Google se vincula automáticamente al canal de prueba cerrada en Google Play. <em class="step-note">Este paso es obligatorio — sin membresía el enlace de Play no funcionará.</em></p>
+                        <p data-lang="en" style="display:none">Request membership in the official IGNITION Google Group. Once accepted, your Google account links automatically to the closed test on Google Play. <em class="step-note">This step is mandatory — without membership the Play link won't work.</em></p>
+                        <a href="https://groups.google.com/g/testers-ignition-breathwork"
+                           id="step1-group-link" class="step-link orange"
+                           target="_blank" rel="noopener noreferrer" data-lang="es">
+                            <i class="fa-brands fa-google"></i> Solicitar Acceso al Grupo
+                        </a>
+                        <a href="https://groups.google.com/g/testers-ignition-breathwork"
+                           id="step1-group-link-en" class="step-link orange"
+                           target="_blank" rel="noopener noreferrer" data-lang="en" style="display:none">
+                            <i class="fa-brands fa-google"></i> Request Group Access
+                        </a>
                     </div>
                 </div>
 
-                <a href="#download" class="btn-primary">
-                    <span data-lang="es">Prueba IGNITION PRO</span>
-                    <span data-lang="en" style="display:none">Try IGNITION PRO</span>
+                <!-- Step 2 -->
+                <div class="step-card">
+                    <div class="step-number purple">2</div>
+                    <div class="step-content">
+                        <h3 data-lang="es">Espera la Confirmación</h3>
+                        <h3 data-lang="en" style="display:none">Wait for Confirmation</h3>
+                        <p data-lang="es">Recibirás un email cuando seas aceptado. El proceso puede tomar entre unas horas y 24-48 horas. Google Play vincula tu cuenta automáticamente. <em class="step-note">Revisa spam / promociones si no recibes el email.</em></p>
+                        <p data-lang="en" style="display:none">You'll receive a confirmation email once accepted. The process may take a few hours to 24-48 hours. Google Play links your account automatically. <em class="step-note">Check spam / promotions if you don't receive the email.</em></p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card">
+                    <div class="step-number green">3</div>
+                    <div class="step-content">
+                        <h3 data-lang="es">Descarga la App</h3>
+                        <h3 data-lang="en" style="display:none">Download the App</h3>
+                        <p data-lang="es">Una vez confirmado, abre este enlace en tu Android para instalar IGNITION Breathwork desde Google Play.</p>
+                        <p data-lang="en" style="display:none">Once confirmed, open this link on your Android device to install IGNITION Breathwork from Google Play.</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.oktober.ignite"
+                           id="step3-download-link" class="step-link green"
+                           target="_blank" rel="noopener noreferrer" data-lang="es">
+                            <i class="fa-brands fa-google-play"></i> Descargar en Google Play
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.oktober.ignite"
+                           id="step3-download-link-en" class="step-link green"
+                           target="_blank" rel="noopener noreferrer" data-lang="en" style="display:none">
+                            <i class="fa-brands fa-google-play"></i> Download on Google Play
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── HOW TO LEAVE A REVIEW ─── -->
+    <section class="review-section">
+        <div class="review-container">
+            <div class="section-header" style="margin-bottom: 0;">
+                <h2 class="section-title" data-lang="es">Deja tu Opinión en Google Play</h2>
+                <h2 class="section-title" data-lang="en" style="display:none">Leave Your Review on Google Play</h2>
+                <p class="section-subtitle" data-lang="es">Tu calificación es vital para el lanzamiento oficial. Así puedes hacerlo:</p>
+                <p class="section-subtitle" data-lang="en" style="display:none">Your rating is vital for the official launch. Here's how to do it:</p>
+            </div>
+
+            <div class="review-steps">
+                <div class="review-step-card" data-num="1">
+                    <div class="review-step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="7"/>
+                            <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+                        </svg>
+                    </div>
+                    <div class="review-step-num" data-lang="es">Paso 1</div>
+                    <div class="review-step-num" data-lang="en" style="display:none">Step 1</div>
+                    <h4 data-lang="es">Abre Google Play</h4>
+                    <h4 data-lang="en" style="display:none">Open Google Play</h4>
+                    <p data-lang="es">Busca "IGNITION Breathwork" o usa el botón de abajo.</p>
+                    <p data-lang="en" style="display:none">Search "IGNITION Breathwork" or use the button below.</p>
+                </div>
+
+                <div class="review-step-card" data-num="2">
+                    <div class="review-step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </div>
+                    <div class="review-step-num" data-lang="es">Paso 2</div>
+                    <div class="review-step-num" data-lang="en" style="display:none">Step 2</div>
+                    <h4 data-lang="es">Toca "Calificar la app"</h4>
+                    <h4 data-lang="en" style="display:none">Tap "Rate this app"</h4>
+                    <p data-lang="es">Selecciona las estrellas y escribe un comentario breve.</p>
+                    <p data-lang="en" style="display:none">Select your stars and write a brief comment.</p>
+                </div>
+
+                <div class="review-step-card" data-num="3">
+                    <div class="review-step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        </svg>
+                    </div>
+                    <div class="review-step-num" data-lang="es">Paso 3</div>
+                    <div class="review-step-num" data-lang="en" style="display:none">Step 3</div>
+                    <h4 data-lang="es">¡Publica tu reseña!</h4>
+                    <h4 data-lang="en" style="display:none">Publish your review!</h4>
+                    <p data-lang="es">Tu opinión aparece en la página de la app y nos ayuda a mejorar.</p>
+                    <p data-lang="en" style="display:none">Your review appears on the app page and helps us improve.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 36px;">
+                <a href="https://play.google.com/store/apps/details?id=com.oktober.ignite"
+                   id="review-cta-btn"
+                   class="btn-primary"
+                   target="_blank" rel="noopener noreferrer"
+                   data-lang="es">
+                    <i class="fa-solid fa-star" style="margin-right: 8px;"></i>Calificar IGNITION ahora
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.oktober.ignite"
+                   id="review-cta-btn-en"
+                   class="btn-primary"
+                   target="_blank" rel="noopener noreferrer"
+                   data-lang="en" style="display:none">
+                    <i class="fa-solid fa-star" style="margin-right: 8px;"></i>Rate IGNITION now
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Beta Participation Form Section -->
-    <section id="beta-form" class="beta-section">
-        <div class="beta-container">
-            <div class="beta-header">
-                <h2 data-lang="es">Participa en la Beta de Enero</h2>
-                <h2 data-lang="en" style="display:none">Join the January Beta</h2>
-                <p data-lang="es">Si ya eres usuario registrado, solicita tu acceso para probar las novedades de
-                    IGNITION durante este mes.</p>
-                <p data-lang="en" style="display:none">If you are a registered user, request access to test the latest
-                    IGNITION features this month.</p>
+    <!-- ─── BUG REPORT ─── -->
+    <section class="bug-section">
+        <div class="bug-container">
+            <div class="section-header" style="margin-bottom: 0;">
+                <h2 class="section-title" data-lang="es">Reportar un Bug o Comentario</h2>
+                <h2 class="section-title" data-lang="en" style="display:none">Report a Bug or Comment</h2>
+                <p class="section-subtitle" data-lang="es">Tu reporte nos ayuda a lanzar una app impecable.</p>
+                <p class="section-subtitle" data-lang="en" style="display:none">Your report helps us launch a flawless app.</p>
             </div>
 
-            <div class="form-wrapper">
-                <form action="https://formspree.io/f/oktoberlabapp@gmail.com" method="POST" class="styled-form">
-                    <div class="form-group">
-                        <label for="name" data-lang="es">Nombre Completo</label>
-                        <label for="name" data-lang="en" style="display:none">Full Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Tu nombre...">
+            <div class="bug-list">
+                <!-- Item 1: In-app FAB -->
+                <div class="bug-list-item">
+                    <div class="bug-list-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="5" y="2" width="14" height="20" rx="2"/>
+                            <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2"/>
+                        </svg>
                     </div>
-                    <div class="form-group">
-                        <label for="email" data-lang="es">Correo Electrónico (el de tu cuenta)</label>
-                        <label for="email" data-lang="en" style="display:none">Email Address (your account
-                            email)</label>
-                        <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                    <div class="bug-list-content">
+                        <h4 data-lang="es">Botón en la App</h4>
+                        <h4 data-lang="en" style="display:none">In-App Button</h4>
+                        <p data-lang="es">Toca el botón flotante 🟠 (esquina inferior derecha) para enviar un bug report con info de tu dispositivo.</p>
+                        <p data-lang="en" style="display:none">Tap the floating button 🟠 (bottom right) to send a bug report with your device info.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="device" data-lang="es">Dispositivo móvil</label>
-                        <label for="device" data-lang="en" style="display:none">Mobile Device</label>
-                        <input type="text" id="device" name="device" placeholder="Ej: Samsung S21, iPhone 13">
-                    </div>
-                    <div class="form-group">
-                        <label for="message" data-lang="es">¿Por qué quieres participar?</label>
-                        <label for="message" data-lang="en" style="display:none">Why do you want to join?</label>
-                        <textarea id="message" name="message" rows="4" placeholder="Cuéntanos un poco..."></textarea>
-                    </div>
-                    <!-- Hidden field to specify it's for the IGNITION Beta -->
-                    <input type="hidden" name="_subject" value="Nueva solicitud para Beta IGNITION">
-                    <input type="hidden" name="_next" value="https://gw86-ar.github.io/IGNITION_Breathwork/">
+                </div>
 
-                    <button type="submit" class="btn-primary" style="width: 100%;">
-                        <span data-lang="es">Enviar Solicitud</span>
-                        <span data-lang="en" style="display:none">Submit Request</span>
-                    </button>
-                    <p class="form-footer" data-lang="es">Al enviar, recibirás instrucciones en tu correo si eres
-                        seleccionado.</p>
-                    <p class="form-footer" data-lang="en" style="display:none">By submitting, you will receive
-                        instructions in your email if selected.</p>
-                </form>
+                <!-- Item 2: Google Group -->
+                <div class="bug-list-item">
+                    <div class="bug-list-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="bug-list-content">
+                        <h4 data-lang="es">Grupo de Testers</h4>
+                        <h4 data-lang="en" style="display:none">Testers Group</h4>
+                        <p data-lang="es">Publica en el grupo para que otros testers puedan ver y confirmar el bug.</p>
+                        <p data-lang="en" style="display:none">Post in the group so other testers can see and confirm the bug.</p>
+                    </div>
+                    <a href="https://groups.google.com/g/testers-ignition-breathwork"
+                       id="bug-group-link" class="bug-list-cta orange"
+                       target="_blank" rel="noopener noreferrer" data-lang="es">
+                        <i class="fa-brands fa-google"></i> Ir al Grupo
+                    </a>
+                    <a href="https://groups.google.com/g/testers-ignition-breathwork"
+                       id="bug-group-link-en" class="bug-list-cta orange"
+                       target="_blank" rel="noopener noreferrer" data-lang="en" style="display:none">
+                        <i class="fa-brands fa-google"></i> Go to Group
+                    </a>
+                </div>
+
+                <!-- Item 3: Email -->
+                <div class="bug-list-item">
+                    <div class="bug-list-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <div class="bug-list-content">
+                        <h4>Email directo</h4>
+                        <p data-lang="es">¿Prefieres privacidad? Envíanos un email con los detalles y pasos para reproducir el bug.</p>
+                        <p data-lang="en" style="display:none">Prefer privacy? Send us an email with details and steps to reproduce.</p>
+                    </div>
+                    <a href="mailto:oktoberlabapp@gmail.com?subject=🐛%20Bug%20Report%20IGNITION%20v1.0.12&body=Descripción%20del%20bug:%0A%0APasos%20para%20reproducir:%0A1.%0A2.%0A%0ADispositivo:"
+                       id="bug-email-link" class="bug-list-cta red">
+                        <i class="fa-solid fa-envelope"></i> Email
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-
-    <!-- Visual Divider / App Showcase -->
-    <section class="visual-showcase" style="padding: 100px 20px; text-align: center; background: #0a0a14;">
-        <div
-            style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: center;">
-            <div style="flex: 1; min-width: 300px; text-align: left;">
-                <h2 style="font-size: 2.5rem; margin-bottom: 20px;" data-lang="es">Sin Ruidos, Solo Enfoque.</h2>
-                <h2 style="font-size: 2.5rem; margin-bottom: 20px;" data-lang="en" style="display:none">No Noise, Just
-                    Focus.</h2>
-                <p style="font-size: 1.2rem; color: #a0a0b0; line-height: 1.6;" data-lang="es">IGNITION ha sido diseñada
-                    para ser tu compañera silenciosa. La guía háptica te permite practicar en el trabajo, el transporte
-                    o en la cama sin molestar a nadie, manteniendo tu privacidad y concentración al máximo.</p>
-                <p style="font-size: 1.2rem; color: #a0a0b0; line-height: 1.6;" data-lang="en" style="display:none">
-                    IGNITION is designed to be your silent companion. Haptic guidance allows you to practice at work,
-                    during transit, or in bed without disturbing anyone, keeping your privacy and concentration at their
-                    peak.</p>
-            </div>
-            <div style="flex: 1; min-width: 300px;">
-                <img src="graficas/Logo512v2.png" alt="Focus Visual" class="showcase-img">
-            </div>
-        </div>
-    </section>
+    <!-- Visual Divider / App Showcase REMOVED — improves flow -->
 
     <section id="download" class="download-cta">
-        <h2 data-lang="es">¿Listo para encender tu potencial?</h2>
-        <h2 data-lang="en" style="display:none">Ready to ignite your potential?</h2>
-        <div style="margin-top: 30px;">
-            <a href="https://play.google.com/apps/testing/com.oktober.ignite" class="download-badge" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-                    alt="Google Play">
+        <h2 data-lang="es">¿Listo para probar IGNITION?</h2>
+        <h2 data-lang="en" style="display:none">Ready to try IGNITION?</h2>
+        <p class="download-sub" data-lang="es">Únete primero al grupo — luego descarga la app en tu Android.</p>
+        <p class="download-sub" data-lang="en" style="display:none">Join the group first — then download the app on your Android.</p>
+        <div class="download-cta-btns">
+            <a href="https://groups.google.com/g/testers-ignition-breathwork"
+               id="download-group-cta"
+               class="btn-primary"
+               target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-google"></i>
+                <span data-lang="es">Unirse al Grupo</span>
+                <span data-lang="en" style="display:none">Join the Group</span>
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.oktober.ignite"
+               class="download-badge"
+               id="download-play-badge"
+               target="_blank" rel="noopener noreferrer">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play">
             </a>
         </div>
     </section>
 
     <footer class="footer">
         <div>
-            <p>&copy; 2024-2025 Oktober LAB.</p>
+            <p>&copy; 2024-2025 Oktober LAB. &nbsp;·&nbsp; IGNITION Breathwork Beta v1.0.12</p>
         </div>
         <div class="footer-links">
             <a href="privacy-policy.html" data-lang="es">Privacidad</a>
@@ -321,10 +810,15 @@
 
                     if (tagName === 'SPAN') {
                         el.style.display = 'inline';
-                    } else if (classList.contains('btn-primary') ||
+                    } else if (
+                        classList.contains('btn-primary') ||
                         classList.contains('btn-secondary') ||
-                        classList.contains('download-badge')) {
-                        el.style.display = 'inline-block';
+                        classList.contains('download-badge') ||
+                        classList.contains('step-link') ||
+                        classList.contains('bug-cta') ||
+                        classList.contains('review-arrow')
+                    ) {
+                        el.style.display = 'inline-flex';
                     }
                 } else {
                     el.style.display = 'none';
